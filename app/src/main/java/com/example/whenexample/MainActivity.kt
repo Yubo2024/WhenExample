@@ -5,50 +5,36 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-// FruitChecker sinfi
-class FruitChecker {
-    // Har bir meva uchun metodlar
-    fun checkApple(): String {
-        return "You entered Apple!"
-    }
-    fun checkBanana(): String {
-        return "You entered Banana!"
-    }
-    fun checkCherry(): String {
-        return "You entered Cherry!"
-    }
-    fun checkUnknown(): String {
-        return "Unknown fruit"
-    }
-    // Kirish ma'lumotini tekshirish
-    fun checkFruit(input: String): String {
-        return when (input.lowercase()) {
-            "apple" -> checkApple()
-            "banana" -> checkBanana()
-            "cherry" -> checkCherry()
-            else -> checkUnknown()
-        }
-    }
-}
-// MainActivity sinfi
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // UI elementlarini olish
-        val editText = findViewById<EditText>(R.id.editText)
-        val button = findViewById<Button>(R.id.button)
-        val textView = findViewById<TextView>(R.id.textView)
-        // FruitChecker obyekti yaratish
-        val fruitChecker = FruitChecker()
-        // Tugmacha bosilganda
-        button.setOnClickListener {
-            val input = editText.text.toString()
-            // FruitChecker sinfi yordamida natijani olish
-            val result = fruitChecker.checkFruit(input)
-            // Natijani TextViewga chiqarish
-            textView.text = result
+
+        // 获取 UI 组件
+        val editTextWord = findViewById<EditText>(R.id.editTextWord)
+        val buttonSearch = findViewById<Button>(R.id.buttonSearch)
+        val textViewResult = findViewById<TextView>(R.id.textViewResult)
+
+        // 使用数组存储单词及其定义
+        val words = arrayOf("hello", "software", "android", "java")
+        val definitions = arrayOf(
+            "A greeting.",
+            "A program developed for a computer or phone.",
+            "A mobile operating system.",
+            "A programming language."
+        )
+
+        // 按钮点击事件
+        buttonSearch.setOnClickListener {
+            val input = editTextWord.text.toString().trim().lowercase()
+
+            // 查找单词
+            val index = words.indexOf(input)
+            val result = if (index != -1) definitions[index] else "Word not found!"
+
+            // 追加新结果，并换行显示
+            textViewResult.text = "${textViewResult.text}\n$input: $result"
         }
     }
-
-    }
+}
